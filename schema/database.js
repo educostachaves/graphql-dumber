@@ -1,27 +1,53 @@
-// We use these types to hold data and resolve from GraphQL types in our schema
+var mysql      = require('mysql');
+
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '123system',
+  database : 'test-widget'
+});
+
+connection.connect(function(err){
+if(!err) {
+    console.log("Database is connected ... \n\n");
+} else {
+    console.log("Error connecting database ... \n\n");
+}
+});
 
 function User(id, name) {
-  this.id = id.toString()
-  this.name = name
+  this.id = id;
+  this.name = name;
 }
 
 function Widget(id, userId, name) {
-  this.id = id.toString()
-  this.userId = userId.toString()
-  this.name = name
+  this.id = id;
+  this.userId = userId;
+  this.name = name;
 }
 
-// In a realistic system, the get functions below would return objects from a
-// datastore like a DB or a REST API instead of an in-memory store like this.
-// You can also return promises for async fetching
+var users = [];
+var widgets = [];
 
-var users = [new User(1, 'Anonymous')]
+connection.query('SELECT * FROM user', function(err, rows, fields) {
+  if (!err) {
+    for(var i = 0; i < rows.length; i++) {
+      users.push( new User (rows[i].id , rows[i].name));
+    }
+  } else {
+    console.log('Error while performing Query.');
+  }
+});
 
-var widgets = [
-  new Widget(1, 1, 'What\'s-it'),
-  new Widget(2, 1, 'Who\'s-it'),
-  new Widget(3, 1, 'How\'s-it'),
-]
+connection.query('SELECT * FROM widget', function(err, rows, fields) {
+  if (!err) {
+    for(var i = 0; i < rows.length; i++) {
+      widgets.push( new Widget (rows[i].id , rows[i].userId , rows[i].name));
+    }
+  } else {
+    console.log('Error while performing Query.');
+  }
+});
 
 module.exports = {
   User: User,
@@ -31,4 +57,3 @@ module.exports = {
   getWidget: function(id) { return widgets.filter(function(w) { return w.id == id })[0] },
   getWidgetsByUser: function(userId) { return widgets.filter(function(w) { return w.userId == userId }) },
 }
-

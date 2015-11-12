@@ -10,12 +10,14 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h2>StudyPlan: {this.props.studyplan.name}</h2>
-        <h2>Modules:</h2>
         <ul>
-            {this.props.studyplan.modules.edges.map(edge =>
-            <li key={edge.node.id}>{edge.node.name} (Global ID: {edge.node.id})</li>
-          )}
+          <li>{this.props.studyplan.name}
+            <ul>
+              {this.props.studyplan.modules.edges.map(edge =>
+                <li key={edge.node.id}>{edge.node.name}</li>
+              )}
+            </ul>
+          </li>
         </ul>
       </div>
     )

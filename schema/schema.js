@@ -41,6 +41,14 @@ var moduleType = new GraphQL.GraphQLObjectType({
       type: GraphQL.GraphQLString,
       description: 'The name of the module',
     },
+    name: {
+      type: GraphQL.GraphQLString,
+      description: 'The name of the module',
+    },
+    description: {
+      type: GraphQL.GraphQLString,
+      description: 'The description of the module',
+    }
   },
   // Declaração de Typo, como um nó
   interfaces: [nodeDefinitions.nodeInterface],
@@ -57,6 +65,14 @@ var studyPlanType = new GraphQL.GraphQLObjectType({
       name: {
         type: GraphQL.GraphQLString,
         description: 'The name of the studyplan',
+      },
+      description: {
+        type: GraphQL.GraphQLString,
+        description: 'The description of the studyplan',
+      },
+      urlTitle: {
+        type: GraphQL.GraphQLString,
+        description: 'The url title of the studyplan',
       },
       // Definição 1:N
       modules: {
@@ -92,7 +108,7 @@ module.exports = new GraphQL.GraphQLSchema({
       // Nossos campos seguem abaixo
       studyplan: {
         type: studyPlanType,
-        resolve: function() { return db.getMathStudyPlan() },
+        resolve: function() { return db.getStudyPlan(1) },
         // No caso defini pegar apenas uma Disciplina, porque ainda não sei ainda como pegar todas :S
       },
     },

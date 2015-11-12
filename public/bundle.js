@@ -14,10 +14,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 var Relay = (typeof window !== "undefined" ? window['Relay'] : typeof global !== "undefined" ? global['Relay'] : null);
 
-// A simple top-level component that illustrates how to render Relay-fetched
-// data using props. In this case Relay will populate a `user` property that
-// has a collection of `widgets` based on the queries and fragments we give it
-// further below.
+// Agora renderizo a pagina usando React. Crio um novo componente, e recebo os
+// dados como Props. No caso o relay vai popular uma disciplina e todos os
+// modulos relacionados a essa disciplina, baseado no fragmento que construimos
 
 var App = (function (_React$Component) {
   _inherits(App, _React$Component);
@@ -28,9 +27,10 @@ var App = (function (_React$Component) {
     _get(Object.getPrototypeOf(App.prototype), 'constructor', this).apply(this, arguments);
   }
 
-  // The component we need to export is a Relay wrapper around our App component
-  // from above. It declares the GraphQL fragments where we list the properties
-  // we want to be fetched – eg, user.name, user.widgets.edges, etc
+  // Uma questão que não entendi muito bem nesses exempli é o porque dele precisar dropdown-messages
+  // componentes Node e Edges para lista. Preciso ver melhor essa questão, que ainda esta meio nebuloso
+
+  // Agora declaramos nosso Fragmento, para renderizar apenas o que queremos na tela.
 
   _createClass(App, [{
     key: 'render',
@@ -39,29 +39,24 @@ var App = (function (_React$Component) {
         'div',
         null,
         React.createElement(
-          'h2',
-          null,
-          'StudyPlan: ',
-          this.props.studyplan.name
-        ),
-        React.createElement(
-          'h2',
-          null,
-          'Modules:'
-        ),
-        React.createElement(
           'ul',
           null,
-          this.props.studyplan.modules.edges.map(function (edge) {
-            return React.createElement(
-              'li',
-              { key: edge.node.id },
-              edge.node.name,
-              ' (Global ID: ',
-              edge.node.id,
-              ')'
-            );
-          })
+          React.createElement(
+            'li',
+            null,
+            this.props.studyplan.name,
+            React.createElement(
+              'ul',
+              null,
+              this.props.studyplan.modules.edges.map(function (edge) {
+                return React.createElement(
+                  'li',
+                  { key: edge.node.id },
+                  edge.node.name
+                );
+              })
+            )
+          )
         )
       );
     }
@@ -72,8 +67,8 @@ var App = (function (_React$Component) {
 
 exports.Container = Relay.createContainer(App, {
   fragments: {
-    // The property name here reflects what is added to `this.props` above.
-    // This template string will be parsed by babel-relay-plugin when we browserify.
+    // o nome nessa propriedade é que vai definir nossa props
+    // Vamos transformar isso lá no babel-relay-plugin quando rodar o browserify.
     studyplan: function studyplan() {
       return (function () {
         var GraphQL = Relay.QL.__GraphQL;
@@ -122,15 +117,13 @@ exports.Container = Relay.createContainer(App, {
   }
 });
 
-// The Relay root container needs to know what queries will occur at the top
-// level – these configurations are currently called Routes in Relay, but this
-// name is misleading and under review so we don't use it here.
+// Agora o relay precisa saber quais queries ele vai rodar na Route. É o que definimos aqui
 exports.queries = {
-  name: 'AppQueries', // can be anything, just used as an identifier
+  name: 'AppQueries', // Pode ser qualquer coisa.
   params: {},
   queries: {
-    // We can use this shorthand so long as the component we pair this with has
-    // a fragment named "user", as we do above.
+    // Podemos usar essa nomeclatura, prara equivaler com o
+    // fragmento que fizemos acima.
     studyplan: function studyplan() {
       return (function () {
         var GraphQL = Relay.QL.__GraphQL;
@@ -143,7 +136,6 @@ exports.queries = {
     }
   }
 };
-/* In schema/schema.js we define a Connection between users and widgets */ /* Connections use `edges` and `node` to hold paging info and child items */
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],2:[function(require,module,exports){
@@ -156,17 +148,13 @@ var ReactDOM = (typeof window !== "undefined" ? window['ReactDOM'] : typeof glob
 var Relay = (typeof window !== "undefined" ? window['Relay'] : typeof global !== "undefined" ? global['Relay'] : null);
 var App = require('./App');
 
-// This file is the entry point on the browser – browserify will compile it, as
-// well as App.js and any other client-side dependencies and create
-// public/bundle.js which will be requested by public/index.html
+// Aquie é onde o browser vai renderizar a saida de dados, compliado pelo Browserify.
 
 ReactDOM.render(
-// At the top of a Relay tree is the root container, which we pass our
-// wrapped App component to, as well as the query configuration ("route"). If
-// we need to render a different component, say as a result of a navigation
-// event, then we would update it here.
-// We also illustrate the use of the onReadyStateChange handler in case
-// there's a network error, etc
+// No topo da aplicação Relay temos um Container, onde passamos nosso componente react
+// e també passamos nossa consultas, as rotas. Se precisamos tornar um componente
+// diferente, digamos, como resultado de um evento de navegação, então teríamos atualizá-lo
+// aqui. Utilizei o manipulador onReadyStateChange no caso de haver um erro de rede, etc.
 React.createElement(Relay.RootContainer, { Component: App.Container, route: App.queries,
   onReadyStateChange: function (_ref) {
     var error = _ref.error;

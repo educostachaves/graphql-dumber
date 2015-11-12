@@ -41,18 +41,18 @@ var App = (function (_React$Component) {
         React.createElement(
           'h2',
           null,
-          'User: ',
-          this.props.user.name
+          'StudyPlan: ',
+          this.props.studyplan.name
         ),
         React.createElement(
           'h2',
           null,
-          'Widgets:'
+          'Modules:'
         ),
         React.createElement(
           'ul',
           null,
-          this.props.user.widgets.edges.map(function (edge) {
+          this.props.studyplan.modules.edges.map(function (edge) {
             return React.createElement(
               'li',
               { key: edge.node.id },
@@ -74,27 +74,27 @@ exports.Container = Relay.createContainer(App, {
   fragments: {
     // The property name here reflects what is added to `this.props` above.
     // This template string will be parsed by babel-relay-plugin when we browserify.
-    user: function user() {
+    studyplan: function studyplan() {
       return (function () {
         var GraphQL = Relay.QL.__GraphQL;
-        return new GraphQL.QueryFragment('App', 'User', [new GraphQL.Field('name', null, null, null, null, null, {
-          parentType: 'User'
-        }), new GraphQL.Field('widgets', [new GraphQL.Field('edges', [new GraphQL.Field('node', [new GraphQL.Field('id', null, null, null, null, null, {
-          parentType: 'Widget',
+        return new GraphQL.QueryFragment('App', 'StudyPlan', [new GraphQL.Field('name', null, null, null, null, null, {
+          parentType: 'StudyPlan'
+        }), new GraphQL.Field('modules', [new GraphQL.Field('edges', [new GraphQL.Field('node', [new GraphQL.Field('id', null, null, null, null, null, {
+          parentType: 'Module',
           requisite: true
         }), new GraphQL.Field('name', null, null, null, null, null, {
-          parentType: 'Widget'
+          parentType: 'Module'
         })], null, null, null, null, {
-          parentType: 'WidgetEdge',
+          parentType: 'ModuleEdge',
           rootCall: 'node',
           pk: 'id',
           requisite: true
         }), new GraphQL.Field('cursor', null, null, null, null, null, {
-          parentType: 'WidgetEdge',
+          parentType: 'ModuleEdge',
           generated: true,
           requisite: true
         })], null, null, null, null, {
-          parentType: 'WidgetConnection',
+          parentType: 'ModuleConnection',
           plural: true
         }), new GraphQL.Field('pageInfo', [new GraphQL.Field('hasNextPage', null, null, null, null, null, {
           parentType: 'PageInfo',
@@ -105,15 +105,15 @@ exports.Container = Relay.createContainer(App, {
           generated: true,
           requisite: true
         })], null, null, null, null, {
-          parentType: 'WidgetConnection',
+          parentType: 'ModuleConnection',
           generated: true,
           requisite: true
         })], null, [new GraphQL.Callv('first', new GraphQL.CallValue(10))], null, null, {
-          parentType: 'User',
+          parentType: 'StudyPlan',
           connection: true,
           nonFindable: true
         }), new GraphQL.Field('id', null, null, null, null, null, {
-          parentType: 'User',
+          parentType: 'StudyPlan',
           generated: true,
           requisite: true
         })]);
@@ -131,11 +131,11 @@ exports.queries = {
   queries: {
     // We can use this shorthand so long as the component we pair this with has
     // a fragment named "user", as we do above.
-    user: function user() {
+    studyplan: function studyplan() {
       return (function () {
         var GraphQL = Relay.QL.__GraphQL;
-        return new GraphQL.Query('user', null, [new GraphQL.Field('id', null, null, null, null, null, {
-          parentType: 'User',
+        return new GraphQL.Query('studyplan', null, [new GraphQL.Field('id', null, null, null, null, null, {
+          parentType: 'StudyPlan',
           generated: true,
           requisite: true
         })], null, null, 'App');

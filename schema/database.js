@@ -1,59 +1,33 @@
-var mysql      = require('mysql');
+// We use these types to hold data and resolve from GraphQL types in our schema
 
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '123system',
-  database : 'test-widget'
-});
-
-connection.connect(function(err){
-if(!err) {
-    console.log("Database is connected ... \n\n");
-} else {
-    console.log("Error connecting database ... \n\n");
-}
-});
-
-function User(id, name) {
-  this.id = id;
-  this.name = name;
+function StudyPlan(id, name) {
+  this.id = id.toString()
+  this.name = name
 }
 
-function Widget(id, userId, name) {
-  this.id = id;
-  this.userId = userId;
-  this.name = name;
+function Module(id, studyPlanId, name) {
+  this.id = id.toString()
+  this.studyPlanId = studyPlanId.toString()
+  this.name = name
 }
 
-var users = [];
-var widgets = [];
+// In a realistic system, the get functions below would return objects from a
+// datastore like a DB or a REST API instead of an in-memory store like this.
+// You can also return promises for async fetching
 
-connection.query('SELECT * FROM user', function(err, rows, fields) {
-  if (!err) {
-    for(var i = 0; i < rows.length; i++) {
-      users.push( new User (rows[i].id , rows[i].name));
-    }
-  } else {
-    console.log('Error while performing Query.');
-  }
-});
+var studyPlans = [new StudyPlan(1, 'Matemática')]
 
-connection.query('SELECT * FROM widget', function(err, rows, fields) {
-  if (!err) {
-    for(var i = 0; i < rows.length; i++) {
-      widgets.push( new Widget (rows[i].id , rows[i].userId , rows[i].name));
-    }
-  } else {
-    console.log('Error while performing Query.');
-  }
-});
+var modules = [
+  new Module(1, 1, 'Algebra'),
+  new Module(2, 1, 'Matriz'),
+  new Module(3, 1, 'Logarítmo'),
+]
 
 module.exports = {
-  User: User,
-  Widget: Widget,
-  getUser: function(id) { return users.filter(function(u) { return u.id == id })[0] },
-  getAnonymousUser: function() { return users[0] },
-  getWidget: function(id) { return widgets.filter(function(w) { return w.id == id })[0] },
-  getWidgetsByUser: function(userId) { return widgets.filter(function(w) { return w.userId == userId }) },
+  StudyPlan: StudyPlan,
+  Module: Module,
+  getStudyPlan: function(id) { return studyPlans.filter(function(s) { return s.id == id })[0] },
+  getMathStudyPlan: function() { return studyPlans[0] },
+  getModule: function(id) { return modules.filter(function(m) { return m.id == id })[0] },
+  getModulesByStudyPlan: function(studyPlanId) { return modules.filter(function(m) { return m.studyPlanId == studyPlanId }) },
 }

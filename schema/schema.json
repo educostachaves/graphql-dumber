@@ -40,12 +40,12 @@
               "deprecationReason": null
             },
             {
-              "name": "user",
+              "name": "studyplan",
               "description": null,
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "User",
+                "name": "StudyPlan",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -95,20 +95,20 @@
           "possibleTypes": [
             {
               "kind": "OBJECT",
-              "name": "Widget",
+              "name": "Module",
               "ofType": null
             },
             {
               "kind": "OBJECT",
-              "name": "User",
+              "name": "StudyPlan",
               "ofType": null
             }
           ]
         },
         {
           "kind": "OBJECT",
-          "name": "Widget",
-          "description": "A shiny widget",
+          "name": "Module",
+          "description": "A shiny module",
           "fields": [
             {
               "name": "id",
@@ -128,7 +128,7 @@
             },
             {
               "name": "name",
-              "description": "The name of the widget",
+              "description": "The name of the module",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -162,8 +162,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "User",
-          "description": "A person who uses our app",
+          "name": "StudyPlan",
+          "description": "A studyplan",
           "fields": [
             {
               "name": "id",
@@ -183,7 +183,7 @@
             },
             {
               "name": "name",
-              "description": "The name of the user",
+              "description": "The name of the studyplan",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -194,19 +194,9 @@
               "deprecationReason": null
             },
             {
-              "name": "widgets",
-              "description": "A user's collection of widgets",
+              "name": "modules",
+              "description": "A studyplan's collection of modules",
               "args": [
-                {
-                  "name": "before",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
                 {
                   "name": "after",
                   "description": null,
@@ -228,6 +218,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "before",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "last",
                   "description": null,
                   "type": {
@@ -240,7 +240,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "WidgetConnection",
+                "name": "ModuleConnection",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -270,7 +270,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "WidgetConnection",
+          "name": "ModuleConnection",
           "description": "A connection to a list of items.",
           "fields": [
             {
@@ -298,7 +298,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "WidgetEdge",
+                  "name": "ModuleEdge",
                   "ofType": null
                 }
               },
@@ -390,7 +390,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "WidgetEdge",
+          "name": "ModuleEdge",
           "description": "An edge in a connection.",
           "fields": [
             {
@@ -399,7 +399,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "Widget",
+                "name": "Module",
                 "ofType": null
               },
               "isDeprecated": false,

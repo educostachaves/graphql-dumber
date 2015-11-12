@@ -7,7 +7,7 @@ var app = express()
 
 // We respond to all GraphQL requests from `/graphql` using the
 // `express-graphql` middleware, which we pass our schema to.
-app.use('/graphql', graphqlHttp({schema: schema}))
+app.use('/graphql', graphqlHttp({schema: schema,graphiql: true}))
 
 // The rest of the routes are just for serving static files
 app.use('/relay', express.static('./node_modules/react-relay/dist'))

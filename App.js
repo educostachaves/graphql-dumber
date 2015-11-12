@@ -10,12 +10,12 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h2>User: {this.props.user.name}</h2>
-        <h2>Widgets:</h2>
+        <h2>StudyPlan: {this.props.studyplan.name}</h2>
+        <h2>Modules:</h2>
         <ul>
           {/* In schema/schema.js we define a Connection between users and widgets */}
           {/* Connections use `edges` and `node` to hold paging info and child items */}
-          {this.props.user.widgets.edges.map(edge =>
+          {this.props.studyplan.modules.edges.map(edge =>
             <li key={edge.node.id}>{edge.node.name} (Global ID: {edge.node.id})</li>
           )}
         </ul>
@@ -31,10 +31,10 @@ exports.Container = Relay.createContainer(App, {
   fragments: {
     // The property name here reflects what is added to `this.props` above.
     // This template string will be parsed by babel-relay-plugin when we browserify.
-    user: () => Relay.QL`
-      fragment on User {
+    studyplan: () => Relay.QL`
+      fragment on StudyPlan {
         name,
-        widgets(first: 10) {
+        modules(first: 10) {
           edges {
             node {
               id,
@@ -56,7 +56,6 @@ exports.queries = {
   queries: {
     // We can use this shorthand so long as the component we pair this with has
     // a fragment named "user", as we do above.
-    user: () => Relay.QL`query { user }`,
+    studyplan: () => Relay.QL`query { studyplan }`,
   },
 }
-

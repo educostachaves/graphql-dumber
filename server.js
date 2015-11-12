@@ -2,14 +2,14 @@ var express = require('express')
 var graphqlHttp = require('express-graphql')
 var schema = require('./schema/schema')
 
-// The server is just a simple Express app
+// Configuração do Express Bem básico, sem muita coisa.
 var app = express()
 
-// We respond to all GraphQL requests from `/graphql` using the
-// `express-graphql` middleware, which we pass our schema to.
+// Coloquei o GraphiQL para me ajudaar no retorno dos dados.
+// Foi a forma mais fácil de ver quais problemas estava surgindo.
 app.use('/graphql', graphqlHttp({schema: schema,graphiql: true}))
 
-// The rest of the routes are just for serving static files
+// Essas rotas são para servir as paginas estáticas... nada demais.
 app.use('/relay', express.static('./node_modules/react-relay/dist'))
 app.use('/', express.static('./public'))
 

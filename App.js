@@ -2,10 +2,10 @@
 var React = require('react')
 var Relay = require('react-relay')
 
-// A simple top-level component that illustrates how to render Relay-fetched
-// data using props. In this case Relay will populate a `user` property that
-// has a collection of `widgets` based on the queries and fragments we give it
-// further below.
+
+// Agora renderizo a pagina usando React. Crio um novo componente, e recebo os
+// dados como Props. No caso o relay vai popular uma disciplina e todos os
+// modulos relacionados a essa disciplina, baseado no fragmento que construimos
 class App extends React.Component {
   render() {
     return (
@@ -13,9 +13,7 @@ class App extends React.Component {
         <h2>StudyPlan: {this.props.studyplan.name}</h2>
         <h2>Modules:</h2>
         <ul>
-          {/* In schema/schema.js we define a Connection between users and widgets */}
-          {/* Connections use `edges` and `node` to hold paging info and child items */}
-          {this.props.studyplan.modules.edges.map(edge =>
+            {this.props.studyplan.modules.edges.map(edge =>
             <li key={edge.node.id}>{edge.node.name} (Global ID: {edge.node.id})</li>
           )}
         </ul>
@@ -24,13 +22,15 @@ class App extends React.Component {
   }
 }
 
-// The component we need to export is a Relay wrapper around our App component
-// from above. It declares the GraphQL fragments where we list the properties
-// we want to be fetched – eg, user.name, user.widgets.edges, etc
+// Uma questão que não entendi muito bem nesses exempli é o porque dele precisar dropdown-messages
+// componentes Node e Edges para lista. Preciso ver melhor essa questão, que ainda esta meio nebuloso
+
+// Agora declaramos nosso Fragmento, para renderizar apenas o que queremos na tela.
+
 exports.Container = Relay.createContainer(App, {
   fragments: {
-    // The property name here reflects what is added to `this.props` above.
-    // This template string will be parsed by babel-relay-plugin when we browserify.
+    // o nome nessa propriedade é que vai definir nossa props
+    // Vamos transformar isso lá no babel-relay-plugin quando rodar o browserify.
     studyplan: () => Relay.QL`
       fragment on StudyPlan {
         name,
@@ -47,15 +47,13 @@ exports.Container = Relay.createContainer(App, {
   },
 })
 
-// The Relay root container needs to know what queries will occur at the top
-// level – these configurations are currently called Routes in Relay, but this
-// name is misleading and under review so we don't use it here.
+// Agora o relay precisa saber quais queries ele vai rodar na Route. É o que definimos aqui
 exports.queries = {
-  name: 'AppQueries', // can be anything, just used as an identifier
+  name: 'AppQueries', // Pode ser qualquer coisa.
   params: {},
   queries: {
-    // We can use this shorthand so long as the component we pair this with has
-    // a fragment named "user", as we do above.
+    // Podemos usar essa nomeclatura, prara equivaler com o
+    // fragmento que fizemos acima.
     studyplan: () => Relay.QL`query { studyplan }`,
   },
 }

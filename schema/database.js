@@ -1,5 +1,3 @@
-// We use these types to hold data and resolve from GraphQL types in our schema
-
 function StudyPlan(id, name) {
   this.id = id.toString()
   this.name = name
@@ -11,11 +9,9 @@ function Module(id, studyPlanId, name) {
   this.name = name
 }
 
-// In a realistic system, the get functions below would return objects from a
-// datastore like a DB or a REST API instead of an in-memory store like this.
-// You can also return promises for async fetching
-
-var studyPlans = [new StudyPlan(1, 'Matemática')]
+var studyPlans = [
+  new StudyPlan(1, 'Matemática')
+]
 
 var modules = [
   new Module(1, 1, 'Algebra'),
